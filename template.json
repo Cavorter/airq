@@ -4,19 +4,19 @@
   "parameters": {
     "sku_name": {
       "type": "string",
-      "default": "F1"
+      "defaultValue": "F1"
     },
     "sku_units": {
       "type": "string",
-      "default": "1"
+      "defaultValue": "1"
     },
     "d2c_partitions": {
       "type": "string",
-      "default": "2"
+      "defaultValue": "2"
     },
     "features": {
       "type": "string",
-      "default": "none"
+      "defaultValue": "none"
     }
   },
   "variables": {
