@@ -1,0 +1,8 @@
+triggers:
+  branches:
+  - master
+
+stages:
+- template: pipeline-deploy.yml
+  parameters:
+    envName: dev

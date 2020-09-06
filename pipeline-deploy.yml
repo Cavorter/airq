@@ -1,0 +1,43 @@
+parameters:
+- name: application
+  type: string
+  default: airq
+- name: envName
+  type: string
+- name: location
+  type: string
+  default: northcentralus
+- name: sku
+  type: string
+  default: F1
+- name: azureSubscription
+  type: string
+  default: foo
+
+stages:
+- stage: ${{ parameters.envName }}
+  variables:
+    - group: '${{ parameters.application }}-${{ parameters.envName }}'
+  jobs:
+  - deployment: ${{ parameters.envName }}
+    displayName: Deploy ${{ parameters.application }} to ${{ parameters.envName }}
+    environment:
+      name: ${{ parameters.envName }}
+    strategy:
+      runOnces:
+        deploy:
+          steps:
+          - task: AzureResourceGroupDeployment@2
+            inputs:
+              azureSubscription: ${{ azureSubscription }}
+              #action: 'Create Or Update Resource Group' # Options: create Or Update Resource Group, select Resource Group, start, stop, stopWithDeallocate, restart, delete, deleteRG
+              resourceGroupName: 'airq-${{ parameters.envName }}'
+              location: ${{ parameters.location }}
+              templateLocation: 'Linked artifact'
+              csmFile: ./template.json
+              #overrideParameters: # Optional
+              deploymentMode: 'Incremental'
+              #outputVariable: # Optional
+              #deploymentName: # Optional
+              #deploymentOutputs: # Optional
+              #addSpnToEnvironment: false # Optional
