@@ -1,6 +1,10 @@
-triggers:
+trigger:
   branches:
-  - master
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
 
 stages:
 - template: pipeline-deploy.yml
