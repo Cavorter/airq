@@ -10,9 +10,9 @@ parameters:
 - name: sku
   type: string
   default: F1
-- name: azureSubscription
+- name: azureResourceManagerConnection
   type: string
-  default: foo
+  default: MSDN
 
 stages:
 - stage: ${{ parameters.envName }}
@@ -29,9 +29,11 @@ stages:
           steps:
           - task: AzureResourceGroupDeployment@2
             inputs:
-              azureSubscription: ${{ azureSubscription }}
-              #action: 'Create Or Update Resource Group' # Options: create Or Update Resource Group, select Resource Group, start, stop, stopWithDeallocate, restart, delete, deleteRG
-              resourceGroupName: 'airq-${{ parameters.envName }}'
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: '${{ parameters.azureResourceManagerConnection }}'
+              subscriptionId: '$(subscriptionId)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '${{ parameters.application }}-${{ parameters.envName }}'
               location: ${{ parameters.location }}
               templateLocation: 'Linked artifact'
               csmFile: ./template.json
@@ -40,4 +42,3 @@ stages:
               #outputVariable: # Optional
               #deploymentName: # Optional
               #deploymentOutputs: # Optional
-              #addSpnToEnvironment: false # Optional
