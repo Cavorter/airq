@@ -24,10 +24,10 @@ stages:
     environment:
       name: ${{ parameters.envName }}
     strategy:
-      runOnces:
+      runOnce:
         deploy:
           steps:
-          - task: AzureResourceGroupDeployment@2
+          - task: AzureResourceManagerTemplateDeployment@3
             inputs:
               deploymentScope: 'Resource Group'
               azureResourceManagerConnection: '${{ parameters.azureResourceManagerConnection }}'
